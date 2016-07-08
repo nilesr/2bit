@@ -2,8 +2,8 @@
 
 Inspired by [2bit](http://2bit.neocities.org/)
 
-Usage: `python3 2bit.py my_image_file.png`
+Usage: `python3 2bit.py infile.png [outfile.png] [bits]`
 
 Warning: Will probably turn transparency black
 
-You can change the number of bits at the top of the file for different results. 1 would be just black and white, while 8 would be the original image in greyscale.
+You can change the number of bits for different results. 1 would be just black and white, while 8 would be the original image in greyscale.

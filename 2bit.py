@@ -5,6 +5,10 @@ print_debug = False
 # End of the configuration section
 
 import PIL.Image, sys
+if len(sys.argv) >= 3:
+    outfile = sys.argv[2]
+if len(sys.argv) >= 4:
+    bits = int(sys.argv[3])
 def debug(*args):
     if print_debug: print(*args)
 def binprecision(start, bits, length):
