@@ -37,7 +37,7 @@ for x in range(image.width):
     for y in range(image.height):
         i += 1
         bar.index = i
-        if i % 200 == 0: bar.update()
+        if i % 193 == 0: bar.update() # I used to use 200 but then the last two digits of the current status were always "00" which made it look like the progress bar was fake
         pos = (x,y)
         color = image.getpixel(pos)
         if len(color) == 4:
@@ -54,4 +54,5 @@ for x in range(image.width):
             color[z] = colors[index]
         out.putpixel(pos, tuple(color))
 out.save(outfile)
+bar.update() # Otherwise it will display the last multiple of 193 out of the total value
 bar.finish()

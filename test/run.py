@@ -12,6 +12,7 @@ max_i = len(files) * (16*3)
 
 def getparams(i):
     percolor = dither = False
+    i %= 48
     if i % 16 >= 8:
         percolor = True
     if i >= 16:
@@ -44,3 +45,4 @@ for f in files:
         print("On " + outfilename)
         subprocess.call(["python3", "../2bit.py", f, outfilename, bits_formatted, *percolor, *dither])
         i += 1
+print("Done")
