@@ -6,6 +6,8 @@ dither = False
 # End of the configuration section
 
 import PIL.Image, sys, random
+sys.path.append(".")
+import libbar
 if len(sys.argv) >= 3:
     outfile = sys.argv[2]
 if len(sys.argv) >= 4:
@@ -29,8 +31,14 @@ elif bits == 1:
     mode = "1" # 1x1 bit unsigned integer
 out = PIL.Image.new(mode,image.size)
 colors = [int(i*255.0/(2**bits-1)) for i in range(2**bits)]
+bar = libbar.IncrementalBar(max = image.height * image.width)
+bar.start()
+i = 0
 for x in range(image.width):
     for y in range(image.height):
+        i += 1
+        bar.index = i
+        if i % 200 == 0: bar.update()
         pos = (x,y)
         color = image.getpixel(pos)
         if len(color) == 4:
@@ -47,3 +55,4 @@ for x in range(image.width):
             color[z] = colors[index]
         out.putpixel(pos, tuple(color))
 out.save(outfile)
+bar.finish()
