@@ -6,8 +6,7 @@ dither = False
 # End of the configuration section
 
 import PIL.Image, sys, random
-sys.path.append(".")
-import libbar
+import pip._vendor.progress.bar as libbar
 if len(sys.argv) >= 3:
     outfile = sys.argv[2]
 if len(sys.argv) >= 4:
