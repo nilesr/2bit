@@ -2,7 +2,9 @@
 
 Inspired by [2bit](http://2bit.neocities.org/)
 
-Usage: `python3 2bit.py infile.png [outfile.png] [bits]`
+Usage: `python3 2bit.py infile.png [outfile.png] [bits] [--per-color] [--dither dither_value]`
+
+dither\_value can be like `50%`, `50` or `.5`
 
 Warning: Will probably turn transparency black
 
