@@ -75,7 +75,8 @@ for x in range(image.width):
                 if use_non_random_dither:
                     val = 255*float(counter)/counter_max # goes from 0 to 255
                     val *= dither # for dither = .1 and counter max = 4 it goes from 0 to 25.5
-                    val -= 255 * dither / 2 # for those values it goes from -12.75 to 12.75
+                    val *= 2 # 0 to +51
+                    val -= 255 * dither # -25.5 to +25.5
                     val = int(val)
                 color[z] += val
                 color[z] = min(color[z], 255)
