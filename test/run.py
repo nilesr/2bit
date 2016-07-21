@@ -41,6 +41,7 @@ for f in files:
         for dither in [False, "15", "50", "auto"]:
             for nonrandom in [False, "7", "10"]:
                 for percolor in [False, True]:
+                    if nonrandom and not dither: continue
                     i += 1
                     run(bits, percolor, dither, nonrandom)
                     print(str(int(float(1000*i)/max_i)/10) + "% done")

@@ -33,7 +33,7 @@ if use_non_random_dither:
     counter_max = int(args[args.index("--non-random-dither") + 1])
     if not dither:
         dither = auto_dither(bits)
-        print("Non-random dither has no effect if dither is disabled. Guessing you want "+format_dither(dither)+"% dither")
+        print("Non-random dither has no effect if dither is disabled. Guessing you want "+format_dither(dither)+" dither")
 def binprecision(start, bits, length):
     end = bin(int(start))[2:]
     while len(end) < bits:
