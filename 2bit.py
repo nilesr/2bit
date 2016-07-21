@@ -12,7 +12,12 @@ def format_dither(d):
     d = float(int(float(dither) * 1000)) / 10
     return str(d) + "%"
 def auto_dither(bits):
-    return 1.0 / (bits + 1)
+    #return 1.0 / (bits + 1)
+    return 1.0 / (2**bits)
+def auto_counter_max(w):
+    k = max(int(float(w)/200),2)
+    while w % (k + 1) == 0: k += 1
+    return k
 if len(sys.argv) >= 3:
     outfile = sys.argv[2]
 if len(sys.argv) >= 4:
@@ -29,8 +34,14 @@ if dither > 1:
     dither /= 100
 per_color = "--per-color" in args
 use_non_random_dither = "--non-random-dither" in args
+image = PIL.Image.open(sys.argv[1])
 if use_non_random_dither:
-    counter_max = int(args[args.index("--non-random-dither") + 1])
+    counter_max = args[args.index("--non-random-dither") + 1]
+    if counter_max == "auto":
+        counter_max = auto_counter_max(image.height)
+        print("Using non-random dither counter value of " + str(counter_max) + " pixels")
+    else:
+        counter_max = int(counter_max)
     if not dither:
         dither = auto_dither(bits)
         print("Non-random dither has no effect if dither is disabled. Guessing you want "+format_dither(dither)+" dither")
@@ -39,7 +50,6 @@ def binprecision(start, bits, length):
     while len(end) < bits:
         end = '0' + end
     return end[:length]
-image = PIL.Image.open(sys.argv[1])
 mode = "L" # 1x8 bit unsigned integer
 if per_color:
     mode = "RGB"
