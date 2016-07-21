@@ -8,7 +8,7 @@ files = glob.glob("*")
 del files[files.index("gentest.py")]
 del files[files.index("run.py")]
 if not os.path.isdir("out"): os.mkdir("out")
-def run(bits, percolor, dither, nonrandom):
+def run(f,bits, percolor, dither, nonrandom):
     if not percolor:
         percolor = []
         pc = ""
@@ -40,8 +40,8 @@ for f in files:
             for nonrandom in [False, "7", "10", "auto"]:
                 for percolor in [False, True]:
                     if nonrandom and not dither: continue
-                    torun.append([bits, percolor, dither, nonrandom])
-print(str(len(torun)) + " images to generate")
+                    torun.append([f,bits, percolor, dither, nonrandom])
+print(str(len(torun)) + " images will be generated")
 i = 0
 for args in torun:
     i += 1
