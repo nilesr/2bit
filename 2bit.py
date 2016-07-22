@@ -3,6 +3,7 @@ outfile = "out.png"
 per_color = False
 dither = False
 use_non_random_dither = False
+no_status_bar = False
 
 # End of the configuration section
 
@@ -15,7 +16,7 @@ def auto_dither(bits):
     #return 1.0 / (bits + 1)
     return 1.0 / (2**bits)
 def auto_counter_max(w):
-    k = max(int(float(w)/200),2)
+    k = max(int(float(w)/200),4)
     while w % (k + 1) == 0: k += 1
     return k
 if len(sys.argv) >= 3:
@@ -34,6 +35,7 @@ if dither > 1:
     dither /= 100
 per_color = "--per-color" in args
 use_non_random_dither = "--non-random-dither" in args
+no_status_bar = "--no-status-bar" in args
 image = PIL.Image.open(sys.argv[1])
 if use_non_random_dither:
     counter_max = args[args.index("--non-random-dither") + 1]
@@ -57,8 +59,9 @@ elif bits == 1:
     mode = "1" # 1x1 bit unsigned integer
 out = PIL.Image.new(mode,image.size)
 colors = [int(i*255.0/(2**bits-1)) for i in range(2**bits)]
-bar = libbar.IncrementalBar(max = image.height * image.width)
-bar.start()
+if not no_status_bar:
+    bar = libbar.IncrementalBar(max = image.height * image.width)
+    bar.start()
 i = 0
 if use_non_random_dither:
     counter = 1
@@ -68,8 +71,9 @@ for x in range(image.width):
         if use_non_random_dither:
             counter += 1
             counter %= counter_max + 1
-        bar.index = i
-        if i % 193 == 0: bar.update() # I used to use 200 but then the last two digits of the current status were always "00" which made it look like the progress bar was fake
+        if not no_status_bar:
+            bar.index = i
+            if i % 193 == 0: bar.update() # I used to use 200 but then the last two digits of the current status were always "00" which made it look like the progress bar was fake
         pos = (x,y)
         color = image.getpixel(pos)
         if type(color) == int:
@@ -95,5 +99,6 @@ for x in range(image.width):
             color[z] = colors[index]
         out.putpixel(pos, tuple(color))
 out.save(outfile)
-bar.update() # Otherwise it will display the last multiple of 193 out of the total value
-bar.finish()
+if not no_status_bar:
+    bar.update() # Otherwise it will display the last multiple of 193 out of the total value
+    bar.finish()
