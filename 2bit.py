@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 bits = 2
 outfile = "out.png"
 per_color = False
