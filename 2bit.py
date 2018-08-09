@@ -53,6 +53,7 @@ if dither > 1:
 # set percolor to true if "--per-color" appears anywhere in the arguments, same for displaying the status bar
 per_color = "--per-color" in args
 no_status_bar = "--no-status-bar" in args
+image = PIL.Image.open(sys.argv[1])
 # This is very similar to the logic for automatically setting dither, however it checks if dither was not set at all, and if dither was not set but nonrandom dither *was* set, then we automatically select a dither value
 use_non_random_dither = "--non-random-dither" in args
 if use_non_random_dither:
@@ -73,7 +74,6 @@ elif bits == 1:
     # We do this because it allows us to compress the data a lot easier
     mode = "1" # 1x1 bit unsigned integer
 # Begin creating some objects
-image = PIL.Image.open(sys.argv[1])
 out = PIL.Image.new(mode,image.size)
 # This actually generates a number of colors equal to two to the power of the bit depth. So if your bit depth was one, it would return a list of (black, white), while if your bit depth was 8, it would return a list of 255 different shades of grey, in order
 colors = [int(i*255.0/(2**bits-1)) for i in range(2**bits)]
